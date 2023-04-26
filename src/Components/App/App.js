@@ -5,9 +5,9 @@ import Footer from "../Footer";
 import "./App.css";
 
 const todoData = [
-	{ text: "Completed task", status: "completed", id: 1 },
-	{ text: "Editing task", status: "", id: 2 },
-	{ text: "Active task", status: "", id: 3 },
+	{ text: "Learn React", status: "", id: 1 },
+	{ text: "Task 1", status: "completed", id: 2 },
+	{ text: "Task 2", status: "", id: 3 },
 ];
 
 function App() {
