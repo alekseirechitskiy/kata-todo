@@ -1,24 +1,38 @@
+import React, { Component } from "react";
+
 import Header from "../Header/Header";
 import NewTaskForm from "../NewTaskForm";
 import TaskList from "../TaskList";
 import Footer from "../Footer";
 import "./App.css";
 
-const todoData = [
-	{ text: "Learn React", status: "", id: 1 },
-	{ text: "Task 1", status: "completed", id: 2 },
-	{ text: "Task 2", status: "", id: 3 },
-];
+export default class App extends Component {
+	state = {
+		todoData: [
+			{ text: "Learn React", status: "", id: 1, done: false },
+			{ text: "Task 1", status: "", id: 2, done: false },
+			{ text: "Task 2", status: "", id: 3, done: false },
+		],
+	};
 
-function App() {
-	return (
-		<section className="todoapp">
-			<Header />
-			<NewTaskForm />
-			<TaskList todos={todoData} />
-			<Footer />
-		</section>
-	);
+	deleteItem = (id) => {
+		this.setState(({ todoData }) => {
+			const idx = todoData.findIndex((el) => el.id === id);
+			const newArray = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)];
+			return {
+				todoData: newArray,
+			};
+		});
+	};
+
+	render() {
+		return (
+			<section className="todoapp">
+				<Header />
+				<NewTaskForm />
+				<TaskList todos={this.state.todoData} onDeleted={this.deleteItem} />
+				<Footer />
+			</section>
+		);
+	}
 }
-
-export default App;
