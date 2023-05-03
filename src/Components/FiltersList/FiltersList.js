@@ -1,38 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
 import "./FiltersList.css";
 
-export default class FiltersList extends Component {
-	render() {
-		return (
-			<ul className="filters">
-				<li>
-					<button className="selected">All</button>
-				</li>
-				<li>
-					<button>Active</button>
-				</li>
-				<li>
-					<button>Completed</button>
-				</li>
-			</ul>
-		);
-	}
-}
+const FiltersList = ({ onAllClick, onActiveClick, onCompletedClick }) => {
+	const toggleClass = (e) => {
+		const selectedElement = document.querySelector(".selected");
+		selectedElement.classList.remove("selected");
+		e.target.classList.add("selected");
+	};
 
-// const FiltersListFn = () => {
-// 	return (
-// 		<ul className="filters">
-// 			<li>
-// 				<button className="selected">All</button>
-// 			</li>
-// 			<li>
-// 				<button>Active</button>
-// 			</li>
-// 			<li>
-// 				<button>Completed</button>
-// 			</li>
-// 		</ul>
-// 	);
-// };
+	return (
+		<ul className="filters" onClick={toggleClass}>
+			<li>
+				<button className="selected" onClick={onAllClick}>
+					All
+				</button>
+			</li>
+			<li>
+				<button onClick={onActiveClick}>Active</button>
+			</li>
+			<li>
+				<button onClick={onCompletedClick}>Completed</button>
+			</li>
+		</ul>
+	);
+};
 
-// export default FiltersList;
+export default FiltersList;
