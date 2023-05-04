@@ -11,14 +11,22 @@ export default class App extends Component {
 
 	state = {
 		todoData: [
-			this.creareTodoItem("Learn React"),
-			this.creareTodoItem("Make Todo App"),
-			this.creareTodoItem("Pass the review"),
+			this.creareTodoItem("Learn React", new Date(2023, 3, 13)),
+			this.creareTodoItem("Make Todo App", new Date(2023, 3, 19)),
+			this.creareTodoItem("Pass the review", new Date(2023, 4, 4)),
 		],
 	};
 
-	creareTodoItem(text) {
-		return { text, status: "", done: false, id: this.maxId++, hidden: false };
+	// Добавить defaultProps для даты
+	creareTodoItem(text, date = new Date()) {
+		return {
+			text,
+			status: "",
+			done: false,
+			id: this.maxId++,
+			hidden: false,
+			date,
+		};
 	}
 
 	deleteItem = (id) => {
@@ -46,7 +54,8 @@ export default class App extends Component {
 	};
 
 	addItem = (text) => {
-		// generate id
+		if (text === "" || text[0] === " ") return;
+
 		const newItem = this.creareTodoItem(text);
 
 		//add element in array

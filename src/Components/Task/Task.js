@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import "./Task.css";
 
+import { formatDistanceToNow } from "date-fns";
+
 export default class Task extends Component {
 	render() {
-		const { text, onDeleted, onToggleDone, done, hidden } = this.props;
+		const { text, onDeleted, onToggleDone, done, hidden, date } = this.props;
 		let classNames = "";
 
 		if (done) {
@@ -20,7 +22,12 @@ export default class Task extends Component {
 					<input onClick={onToggleDone} className="toggle" type="checkbox" />
 					<label>
 						<span className="description">{text}</span>
-						<span className="created">created 17 seconds ago</span>
+						<span className="created">
+							{formatDistanceToNow(date, {
+								addSuffix: true,
+								includeSeconds: true,
+							})}
+						</span>
 					</label>
 					<button className="icon icon-edit"></button>
 					<button className="icon icon-destroy" onClick={onDeleted}></button>

@@ -24,4 +24,6 @@ const Footer = ({
 	);
 };
 
+Footer.defaultProps = {};
+
 export default Footer;
