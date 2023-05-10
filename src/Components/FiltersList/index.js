@@ -1,2 +1,2 @@
-import FiltersList from "./FiltersList";
+import FiltersList from './FiltersList';
 export default FiltersList;

@@ -1,27 +1,18 @@
-import React from "react";
-import "./Footer.css";
-import FiltersList from "../FiltersList";
+import React from 'react';
 
-const Footer = ({
-	toDo,
-	onClearAll,
-	onAllClick,
-	onActiveClick,
-	onCompletedClick,
-}) => {
-	return (
-		<footer className="footer">
-			<span className="todo-count">{toDo} items left</span>
-			<FiltersList
-				onAllClick={onAllClick}
-				onActiveClick={onActiveClick}
-				onCompletedClick={onCompletedClick}
-			/>
-			<button className="clear-completed" onClick={onClearAll}>
-				Clear completed
-			</button>
-		</footer>
-	);
+import './Footer.css';
+import FiltersList from '../FiltersList';
+
+const Footer = ({ toDo, onClearAll, onAllClick, onActiveClick, onCompletedClick }) => {
+  return (
+    <footer className="footer">
+      <span className="todo-count">{toDo} items left</span>
+      <FiltersList onAllClick={onAllClick} onActiveClick={onActiveClick} onCompletedClick={onCompletedClick} />
+      <button className="clear-completed" onClick={onClearAll}>
+        Clear completed
+      </button>
+    </footer>
+  );
 };
 
 Footer.defaultProps = {};
