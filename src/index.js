@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 
 import App from './Components/App';
 
-console.log('Different types of files');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
