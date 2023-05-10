@@ -5,7 +5,7 @@ import NewTaskForm from '../NewTaskForm';
 import TaskList from '../TaskList';
 import Footer from '../Footer';
 import './App.css';
-
+console.log('done!');
 export default class App extends Component {
   maxId = 100;
 
