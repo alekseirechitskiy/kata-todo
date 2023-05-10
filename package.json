@@ -56,7 +56,7 @@
     "prettier": "^2.8.8"
   },
   "lint-staged": {
-    "src/**/*.js": [
+    "src/**/*.{js,html,css}": [
       "npm run lint:fix",
       "prettier --write"
     ]
