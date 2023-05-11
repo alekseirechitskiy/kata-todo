@@ -3,12 +3,21 @@ import './Task.css';
 import { formatDistanceToNow } from 'date-fns';
 
 export default class Task extends Component {
+  onSubmit = (evt) => {
+    evt.preventDefault();
+    this.props.editTask();
+  };
+
   render() {
-    const { text, onDeleted, onToggleDone, done, hidden, date } = this.props;
+    const { text, onDeleted, onEdited, onTextCange, onToggleDone, done, editing, hidden, date } = this.props;
     let classNames = '';
 
     if (done) {
       classNames = 'completed';
+    }
+
+    if (editing) {
+      classNames = 'editing';
     }
 
     if (hidden) {
@@ -28,9 +37,12 @@ export default class Task extends Component {
               })}
             </span>
           </label>
-          <button className="icon icon-edit"></button>
+          <button className="icon icon-edit" onClick={onEdited}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
+        <form onSubmit={this.onSubmit}>
+          <input type="text" className="edit" onChange={onTextCange} autoFocus value={text}></input>
+        </form>
       </li>
     );
   }

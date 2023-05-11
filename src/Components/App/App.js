@@ -21,8 +21,8 @@ export default class App extends Component {
   creareTodoItem(text, date = new Date()) {
     return {
       text,
-      status: '',
       done: false,
+      editing: false,
       id: this.maxId++,
       hidden: false,
       date,
@@ -62,6 +62,47 @@ export default class App extends Component {
     this.setState(({ todoData }) => {
       const newArray = [...todoData, newItem];
       return { todoData: newArray };
+    });
+  };
+
+  onEdited = (id) => {
+    this.setState(({ todoData }) => {
+      const idx = todoData.findIndex((el) => el.id === id);
+
+      // 1. update object
+      const oldItem = todoData[idx];
+
+      const newItem = { ...oldItem, editing: !oldItem.editing };
+      // 2. cunstract new array
+      const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+
+      return {
+        todoData: newArray,
+      };
+    });
+  };
+
+  editTask = () => {
+    this.setState(({ todoData }) => {
+      const newArray = [...todoData];
+      newArray.forEach((el) => (el.editing = false));
+      return { todoData: newArray };
+    });
+  };
+
+  onTextCange = (e) => {
+    this.setState(({ todoData }) => {
+      const newArray = [...todoData];
+
+      const idx = newArray.findIndex((el) => el.text === e.target.defaultValue);
+
+      const editedElement = newArray[idx];
+
+      const newItem = { ...editedElement, text: e.target.value };
+
+      const newData = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+
+      return { todoData: newData };
     });
   };
 
@@ -152,7 +193,14 @@ export default class App extends Component {
       <section className="todoapp">
         <Header />
         <NewTaskForm onItemAdded={this.addItem} />
-        <TaskList todos={this.state.todoData} onDeleted={this.deleteItem} onToggleDone={this.onToggleDone} />
+        <TaskList
+          todos={this.state.todoData}
+          editTask={this.editTask}
+          onTextCange={this.onTextCange}
+          onEdited={this.onEdited}
+          onDeleted={this.deleteItem}
+          onToggleDone={this.onToggleDone}
+        />
         <Footer
           toDo={todoCount}
           onClearAll={this.clearCompleted}
