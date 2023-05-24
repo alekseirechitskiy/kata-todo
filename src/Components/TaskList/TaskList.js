@@ -8,7 +8,9 @@ const TaskList = ({ todos, onDeleted, onEdited, editTask, onTextCange, onToggleD
     return (
       <Task
         key={id}
+        id={id}
         {...other}
+        // onEscPress={() => onEscPress(id)}
         onTextCange={onTextCange}
         editTask={() => editTask()}
         onEdited={() => onEdited(id)}

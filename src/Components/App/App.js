@@ -9,6 +9,10 @@ import './App.css';
 export default class App extends Component {
   maxId = 100;
 
+  constructor() {
+    super();
+  }
+
   state = {
     todoData: [
       this.creareTodoItem('Learn React', new Date(2023, 3, 13)),
@@ -123,6 +127,20 @@ export default class App extends Component {
     });
   };
 
+  // onEscPress = (id) => {
+  //   console.log('ESC from APP');
+  //   console.log(id);
+  //   this.setState(({ todoData }) => {
+  //     const oldArray = [...todoData];
+
+  //     oldArray.forEach((el) => {
+  //       el.editing = false;
+  //     });
+
+  //     return { todoData: oldArray };
+  //   });
+  // };
+
   // Filter functions
   showAll = () => {
     this.setState(({ todoData }) => {
@@ -200,6 +218,7 @@ export default class App extends Component {
           onEdited={this.onEdited}
           onDeleted={this.deleteItem}
           onToggleDone={this.onToggleDone}
+          // onEscPress={this.onEscPress}
         />
         <Footer
           toDo={todoCount}

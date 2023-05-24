@@ -8,8 +8,23 @@ export default class Task extends Component {
     this.props.editTask();
   };
 
+  // cancel = (e) => {
+  //   e.preventDefault();
+  //   console.log(e.target);
+  //   if (e.keyCode === 27) {
+  //     this.props.onEscPress();
+  //   }
+  // };
+
+  // componentDidMount() {
+  //   document.addEventListener('keyup', this.cancel, false);
+  // }
+  // componentWillUnmount() {
+  //   document.removeEventListener('keyup', this.cancel, false);
+  // }
+
   render() {
-    const { text, onDeleted, onEdited, onTextCange, onToggleDone, done, editing, hidden, date } = this.props;
+    const { text, onDeleted, onEdited, onTextCange, onToggleDone, done, editing, hidden, date, id } = this.props;
     let classNames = '';
 
     if (done) {
@@ -27,8 +42,15 @@ export default class Task extends Component {
     return (
       <li className={classNames}>
         <div className="view">
-          <input onClick={onToggleDone} className="toggle" type="checkbox" />
-          <label>
+          <input
+            onKeyUp={this.cancel}
+            autoFocus
+            id={`task-${id}`}
+            onClick={onToggleDone}
+            className="toggle"
+            type="checkbox"
+          />
+          <label htmlFor={`task-${id}`}>
             <span className="description">{text}</span>
             <span className="created">
               {formatDistanceToNow(date, {
@@ -37,13 +59,35 @@ export default class Task extends Component {
               })}
             </span>
           </label>
-          <button className="icon icon-edit" onClick={onEdited}></button>
-          <button className="icon icon-destroy" onClick={onDeleted}></button>
+          <button type="button" className="icon icon-edit" onClick={onEdited}></button>
+          <button type="button" className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
         <form onSubmit={this.onSubmit}>
-          <input type="text" className="edit" onChange={onTextCange} autoFocus value={text}></input>
+          <input type="text" className="edit" onChange={onTextCange} value={text}></input>
         </form>
       </li>
     );
   }
+}
+
+{
+  /* <li className={classNames}>
+  <div className="view">
+    <input onClick={onToggleDone} className="toggle" type="checkbox" />
+    <label>
+      <span className="description">{text}</span>
+      <span className="created">
+        {formatDistanceToNow(date, {
+          addSuffix: true,
+          includeSeconds: true,
+        })}
+      </span>
+    </label>
+    <button className="icon icon-edit" onClick={onEdited}></button>
+    <button className="icon icon-destroy" onClick={onDeleted}></button>
+  </div>
+  <form onSubmit={this.onSubmit}>
+    <input type="text" className="edit" onChange={onTextCange} autoFocus value={text}></input>
+  </form>
+</li>; */
 }

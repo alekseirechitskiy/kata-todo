@@ -8,7 +8,7 @@ const Footer = ({ toDo, onClearAll, onAllClick, onActiveClick, onCompletedClick 
     <footer className="footer">
       <span className="todo-count">{toDo} items left</span>
       <FiltersList onAllClick={onAllClick} onActiveClick={onActiveClick} onCompletedClick={onCompletedClick} />
-      <button className="clear-completed" onClick={onClearAll}>
+      <button className="clear-completed" onClick={onClearAll} type="button">
         Clear completed
       </button>
     </footer>
