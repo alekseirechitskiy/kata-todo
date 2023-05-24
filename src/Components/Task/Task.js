@@ -51,8 +51,13 @@ export default class Task extends Component {
             type="checkbox"
           />
           <label htmlFor={`task-${id}`}>
-            <span className="description">{text}</span>
-            <span className="created">
+            <span className="title">{text}</span>
+            <span className="description">
+              <button className="icon icon-play"></button>
+              <button className="icon icon-pause"></button>
+              12:25
+            </span>
+            <span className="description">
               {formatDistanceToNow(date, {
                 addSuffix: true,
                 includeSeconds: true,
@@ -68,6 +73,21 @@ export default class Task extends Component {
       </li>
     );
   }
+}
+
+{
+  /* <span className="description">{text}</span>
+            <span className="timer-box created">
+              <button className="icon icon-play" type="button"></button>
+              <button className="icon icon-pause" type="button"></button>
+              12:25
+            </span>
+            <span className="created">
+              {formatDistanceToNow(date, {
+                addSuffix: true,
+                includeSeconds: true,
+              })}
+            </span> */
 }
 
 {
