@@ -40,3 +40,15 @@
   width: 15%;
   padding-left: 16px;
 }
+
+input[type='number'].new-todo-form__timer::-webkit-inner-spin-button,
+input[type='number'].new-todo-form__timer ::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type='number'].new-todo-form__timer {
+  -moz-appearance: textfield;
+}

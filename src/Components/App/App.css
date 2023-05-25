@@ -88,3 +88,15 @@ body {
     background: none;
   }
 }
+
+.counter {
+  display: block;
+}
+
+.counter-btn {
+  display: block;
+  border: 1px solid black;
+  width: 200px;
+  height: 40px;
+  cursor: pointer;
+}

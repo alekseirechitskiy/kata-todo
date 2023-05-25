@@ -8,6 +8,33 @@ export default class Task extends Component {
     this.props.editTask();
   };
 
+  deleteTimer = () => {
+    this.props.deleteTaskTimer();
+  };
+
+  // getPadTime = (time) => {
+  //   time.
+  // }
+
+  timeConvertor = (number) => {
+    console.log(number / 60);
+
+    const minutes = Math.trunc(number / 60)
+      .toString()
+      .padStart(2, '0');
+    const seconds = (number % 60).toString().padStart(2, '0');
+
+    return `${minutes}:${seconds}`;
+
+    // if (number % 60 === 0) {
+    //   // console.log(`min: ${number / 60}, secs: 0`);
+    //   return `${number / 60}: 0`;
+    // } else {
+    //   // console.log(`min: ${Math.trunc(number / 60)}, secs: ${number % 60}`);
+    //   return `${Math.trunc(number / 60)}:${(number % 60)}`;
+    // }
+  };
+
   // cancel = (e) => {
   //   e.preventDefault();
   //   console.log(e.target);
@@ -19,12 +46,34 @@ export default class Task extends Component {
   // componentDidMount() {
   //   document.addEventListener('keyup', this.cancel, false);
   // }
-  // componentWillUnmount() {
-  //   document.removeEventListener('keyup', this.cancel, false);
+  componentWillUnmount() {
+    // document.removeEventListener('keyup', this.cancel, false);
+
+    this.deleteTimer;
+  }
+
+  // componentDidUpdate() {
+  //   console.log('Mins have been changed');
   // }
 
   render() {
-    const { text, onDeleted, onEdited, onTextCange, onToggleDone, done, editing, hidden, date, id } = this.props;
+    const {
+      text,
+      onStartTimer,
+      onStopTimer,
+      onDeleted,
+      onEdited,
+      onTextCange,
+      onToggleDone,
+      done,
+      editing,
+      hidden,
+      date,
+      // mins,
+      // secs,
+      duration,
+      id,
+    } = this.props;
     let classNames = '';
 
     if (done) {
@@ -44,7 +93,7 @@ export default class Task extends Component {
         <div className="view">
           <input
             onKeyUp={this.cancel}
-            autoFocus
+            autoFocus={true}
             id={`task-${id}`}
             onClick={onToggleDone}
             className="toggle"
@@ -53,9 +102,10 @@ export default class Task extends Component {
           <label htmlFor={`task-${id}`}>
             <span className="title">{text}</span>
             <span className="description">
-              <button className="icon icon-play"></button>
-              <button className="icon icon-pause"></button>
-              12:25
+              <button className="icon icon-play" onClick={onStartTimer}></button>
+              <button className="icon icon-pause" onClick={onStopTimer}></button>
+              {/* {mins}:{secs} */}
+              {this.timeConvertor(duration)}
             </span>
             <span className="description">
               {formatDistanceToNow(date, {

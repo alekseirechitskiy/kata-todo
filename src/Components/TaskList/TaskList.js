@@ -3,7 +3,17 @@ import React from 'react';
 import Task from '../Task/Task';
 import './TaskList.css';
 
-const TaskList = ({ todos, onDeleted, onEdited, editTask, onTextCange, onToggleDone }) => {
+const TaskList = ({
+  todos,
+  deleteTaskTimer,
+  onStartTimer,
+  onStopTimer,
+  onDeleted,
+  onEdited,
+  editTask,
+  onTextCange,
+  onToggleDone,
+}) => {
   const tasks = todos.map(({ id, ...other }) => {
     return (
       <Task
@@ -16,6 +26,9 @@ const TaskList = ({ todos, onDeleted, onEdited, editTask, onTextCange, onToggleD
         onEdited={() => onEdited(id)}
         onDeleted={() => onDeleted(id)}
         onToggleDone={() => onToggleDone(id)}
+        onStartTimer={() => onStartTimer(id)}
+        onStopTimer={() => onStopTimer(id)}
+        deleteTaskTimer={() => deleteTaskTimer(id)}
       />
     );
   });
