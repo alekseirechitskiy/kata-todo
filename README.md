@@ -1,3 +1,3 @@
 ## Todo App (KATA Academy)
 
-https://kata-todo-neon.vercel.app/
+https://kata-todo-niqvhu4yu-alekseirechitskiy.vercel.app/
