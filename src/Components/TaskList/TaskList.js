@@ -20,7 +20,6 @@ const TaskList = ({
         key={id}
         id={id}
         {...other}
-        // onEscPress={() => onEscPress(id)}
         onTextCange={onTextCange}
         editTask={() => editTask()}
         onEdited={() => onEdited(id)}

@@ -34,7 +34,6 @@ export default class NewTaskForm extends Component {
       mins: '',
       secs: '',
     });
-    // console.log(this.state.text, this.state.mins, this.state.secs);
   };
 
   render() {
