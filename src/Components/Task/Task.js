@@ -13,12 +13,15 @@ export default class Task extends Component {
   };
 
   timeConvertor = (number) => {
-    const minutes = Math.trunc(number / 60)
+    const hours = Math.floor(number / 3600)
+      .toString()
+      .padStart(2, '0');
+    const minutes = Math.floor(number / 60 - hours * 60)
       .toString()
       .padStart(2, '0');
     const seconds = (number % 60).toString().padStart(2, '0');
 
-    return `${minutes}:${seconds}`;
+    return `${hours}:${minutes}:${seconds}`;
   };
 
   componentWillUnmount() {
