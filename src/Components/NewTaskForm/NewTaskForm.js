@@ -1,71 +1,57 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './NewTaskForm.css';
 
-export default class NewTaskForm extends Component {
-  state = {
-    text: '',
-    mins: '',
-    secs: '',
+const NewTaskForm = (props) => {
+  const [taskData, setTaskData] = useState({ text: '', mins: '', secs: '' });
+
+  const onTextCange = (evt) => {
+    setTaskData({ ...taskData, text: evt.target.value });
   };
 
-  onTextCange = (evt) => {
-    this.setState({
-      text: evt.target.value,
-    });
+  const onMinsCange = (evt) => {
+    setTaskData({ ...taskData, mins: evt.target.value });
   };
 
-  onMinsCange = (evt) => {
-    this.setState({
-      mins: evt.target.value,
-    });
+  const onSecsCange = (evt) => {
+    setTaskData({ ...taskData, secs: evt.target.value });
   };
 
-  onSecsCange = (evt) => {
-    this.setState({
-      secs: evt.target.value,
-    });
-  };
-
-  onSubmit = (evt) => {
+  const onSubmit = (evt) => {
     evt.preventDefault();
-    this.props.onItemAdded(this.state.text, this.state.mins, this.state.secs);
-    this.setState({
-      text: '',
-      mins: '',
-      secs: '',
-    });
+    props.onItemAdded(taskData.text, taskData.mins, taskData.secs);
+    setTaskData({ text: '', mins: '', secs: '' });
   };
 
-  render() {
-    return (
-      <form className="new-todo-form" onSubmit={this.onSubmit}>
-        <input
-          className="new-todo"
-          placeholder="What needs to be done?"
-          autoFocus
-          onChange={this.onTextCange}
-          value={this.state.text}
-        />
-        <input
-          className="new-todo-form__timer"
-          onChange={this.onMinsCange}
-          value={this.state.mins}
-          placeholder="Min"
-          onClick={this.props.startTimer}
-          type="number"
-          min={0}
-        />
-        <input
-          className="new-todo-form__timer"
-          onChange={this.onSecsCange}
-          value={this.state.secs}
-          placeholder="Sec"
-          type="number"
-          min={0}
-          max={59}
-        />
-        <input type="submit" hidden />
-      </form>
-    );
-  }
-}
+  return (
+    <form className="new-todo-form" onSubmit={onSubmit}>
+      <input
+        className="new-todo"
+        placeholder="What needs to be done?"
+        autoFocus
+        onChange={onTextCange}
+        value={taskData.text}
+      />
+      <input
+        className="new-todo-form__timer"
+        onChange={onMinsCange}
+        value={taskData.mins}
+        placeholder="Min"
+        onClick={props.startTimer}
+        type="number"
+        min={0}
+      />
+      <input
+        className="new-todo-form__timer"
+        onChange={onSecsCange}
+        value={taskData.secs}
+        placeholder="Sec"
+        type="number"
+        min={0}
+        max={59}
+      />
+      <input type="submit" hidden />
+    </form>
+  );
+};
+
+export default NewTaskForm;
