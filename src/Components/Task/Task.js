@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Task.css';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -17,19 +17,10 @@ const Task = ({
   duration,
   id,
   editTask,
-  deleteTaskTimer,
 }) => {
-  useEffect(() => {
-    return deleteTimer();
-  }, []);
-
   const onSubmit = (evt) => {
     evt.preventDefault();
     editTask();
-  };
-
-  const deleteTimer = () => {
-    deleteTaskTimer();
   };
 
   const timeConvertor = (number) => {
