@@ -80,6 +80,10 @@ const App = () => {
         const idx = todoData.findIndex((el) => el.id === id);
         const oldItem = todoData[idx];
 
+        if (!oldItem) {
+          return [...todoData];
+        }
+
         if (oldItem.isTracked === 'tracked' && oldItem.duration === 0) {
           clearInterval(timerName);
           return [...todoData];
