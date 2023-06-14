@@ -1,33 +1,48 @@
-import React, { Component } from 'react';
+import React, { useState, useRef } from 'react';
 
 import Header from '../Header/Header';
 import NewTaskForm from '../NewTaskForm';
 import TaskList from '../TaskList';
 import Footer from '../Footer';
 import './App.css';
+// import { max } from 'date-fns';
 
-export default class App extends Component {
-  maxId = 100;
+const App = () => {
+  // state = {
+  //   todoData: [
+  //     this.creareTodoItem('Learn React', 6000, 0, new Date(2023, 3, 13)),
+  //     this.creareTodoItem('Make Todo App', 1200, 0, new Date(2023, 3, 19)),
+  //     this.creareTodoItem('Pass the review', 60, 0, new Date(2023, 4, 4)),
+  //     this.creareTodoItem('Test the timer', 0, 5, new Date()),
+  //   ],
+  // };
 
-  constructor() {
-    super();
-  }
+  // let maxId = 100;
 
-  state = {
-    todoData: [
-      this.creareTodoItem('Learn React', 6000, 0, new Date(2023, 3, 13)),
-      this.creareTodoItem('Make Todo App', 1200, 0, new Date(2023, 3, 19)),
-      this.creareTodoItem('Pass the review', 60, 0, new Date(2023, 4, 4)),
-      this.creareTodoItem('Test the timer', 0, 5, new Date()),
-    ],
-  };
+  const testId = useRef(100);
 
-  creareTodoItem(text, mins, secs, date = new Date()) {
+  const [todoData, setTodoData] = useState([
+    creareTodoItem('Learn React', 6000, 0, new Date(2023, 3, 13)),
+    creareTodoItem('Make Todo App', 1200, 0, new Date(2023, 3, 19)),
+    creareTodoItem('Pass the review', 60, 0, new Date(2023, 4, 4)),
+    creareTodoItem('Test the timer', 0, 5, new Date()),
+  ]);
+
+  // LIFECYCLES HOOKS
+  // componentDidUpdate = () => {
+  //   this.timer;
+  // };
+
+  // useEffect(() => {
+  //   console.log(todoData);
+  // }, [todoData]);
+
+  function creareTodoItem(text, mins, secs, date = new Date()) {
     return {
       text,
       done: false,
       editing: false,
-      id: this.maxId++,
+      id: testId.current++,
       hidden: false,
       date,
       mins,
@@ -37,237 +52,373 @@ export default class App extends Component {
     };
   }
 
-  deleteItem = (id) => {
-    this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((el) => el.id === id);
-      const newArray = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)];
-      return {
-        todoData: newArray,
-      };
-    });
+  // === DONE ===
+  const deleteItem = (id) => {
+    const idx = todoData.findIndex((el) => el.id === id);
+    setTodoData([...todoData.slice(0, idx), ...todoData.slice(idx + 1)]);
+
+    // setTodoData(todoData.filter((t) => t.id !== task.id));
+
+    // setPosts(posts.filter((p) => p.id !== post.id));
+
+    // this.setState(({ todoData }) => {
+    //   const idx = todoData.findIndex((el) => el.id === id);
+    //   const newArray = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)];
+    //   return {
+    //     todoData: newArray,
+    //   };
+    // });
   };
 
-  clearCompleted = () => {
-    this.setState(({ todoData }) => {
-      const newData = [...todoData];
-      const uncompletedTasks = newData.filter((el) => !el.done);
-      return {
-        todoData: uncompletedTasks,
-      };
-    });
+  // === DONE ===
+  const clearCompleted = () => {
+    setTodoData(todoData.filter((el) => !el.done));
+
+    // this.setState(({ todoData }) => {
+    //   const newData = [...todoData];
+    //   const uncompletedTasks = newData.filter((el) => !el.done);
+    //   return {
+    //     todoData: uncompletedTasks,
+    //   };
+    // });
   };
 
-  addItem = (text, mins, secs) => {
+  // === DONE ===
+  const addItem = (text, mins, secs) => {
     if (text === '' || text[0] === ' ') return;
-    const newItem = this.creareTodoItem(text, mins, secs);
-    this.setState(({ todoData }) => {
-      const newArray = [...todoData, newItem];
-      return { todoData: newArray };
-    });
+    const newItem = creareTodoItem(text, mins, secs);
+    setTodoData([...todoData, newItem]);
+
+    // this.setState(({ todoData }) => {
+    //   const newArray = [...todoData, newItem];
+    //   return { todoData: newArray };
+    // });
   };
 
-  onEdited = (id) => {
-    this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((el) => el.id === id);
-      const oldItem = todoData[idx];
-      const newItem = { ...oldItem, editing: !oldItem.editing };
-      const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
-      return {
-        todoData: newArray,
-      };
-    });
+  // === DONE ===
+  const onEdited = (id) => {
+    const idx = todoData.findIndex((el) => el.id === id);
+    const oldItem = todoData[idx];
+    const newItem = { ...oldItem, editing: !oldItem.editing };
+    setTodoData([...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]);
+
+    // setTodoData([...todoData, (todoData[id].editing = !todoData[id].editing)]);
+
+    // this.setState(({ todoData }) => {
+    //   const idx = todoData.findIndex((el) => el.id === id);
+    //   const oldItem = todoData[idx];
+    //   const newItem = { ...oldItem, editing: !oldItem.editing };
+    //   const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+    //   return {
+    //     todoData: newArray,
+    //   };
+    // });
   };
 
-  editTask = () => {
-    this.setState(({ todoData }) => {
-      const newArray = [...todoData];
-      newArray.forEach((el) => (el.editing = false));
-      return { todoData: newArray };
-    });
+  // === DONE ===
+  const editTask = () => {
+    console.log('fasdfdsfadsf');
+    setTodoData(todoData.map((el) => ({ ...el, editing: false })));
+
+    // const idx = todoData.findIndex((el) => el.id === id);
+    // const oldItem = todoData[idx];
+    // const newItem = { ...oldItem, editing: false };
+    // setTodoData([...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]);
+    // setTodoData(todoData.forEach((el) => (el.editing = false)));
+    // console.log('editTask(): ', todoData);
+    // this.setState(({ todoData }) => {
+    //   const newArray = [...todoData];
+    //   newArray.forEach((el) => (el.editing = false));
+    //   return { todoData: newArray };
+    // });
   };
 
-  onTextCange = (e) => {
-    this.setState(({ todoData }) => {
-      const newArray = [...todoData];
-      const idx = newArray.findIndex((el) => el.text === e.target.defaultValue);
-      const editedElement = newArray[idx];
-      const newItem = { ...editedElement, text: e.target.value };
-      const newData = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
-      return { todoData: newData };
-    });
+  // === DONE ===
+  const onTextCange = (e) => {
+    const newArray = [...todoData];
+    const idx = newArray.findIndex((el) => el.text === e.target.defaultValue);
+    const editedElement = newArray[idx];
+    const newItem = { ...editedElement, text: e.target.value };
+    setTodoData([...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]);
+
+    // this.setState(({ todoData }) => {
+    //   const newArray = [...todoData];
+    //   const idx = newArray.findIndex((el) => el.text === e.target.defaultValue);
+    //   const editedElement = newArray[idx];
+    //   const newItem = { ...editedElement, text: e.target.value };
+    //   const newData = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+    //   return { todoData: newData };
+    // });
   };
 
-  onToggleDone = (id) => {
-    this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((el) => el.id === id);
-      const oldItem = todoData[idx];
-      const newItem = { ...oldItem, done: !oldItem.done };
-      const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
-      return {
-        todoData: newArray,
-      };
-    });
+  // === DONE ===
+  const onToggleDone = (id) => {
+    const idx = todoData.findIndex((el) => el.id === id);
+    const oldItem = todoData[idx];
+    const newItem = { ...oldItem, done: !oldItem.done };
+
+    setTodoData([...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]);
+
+    // this.setState(({ todoData }) => {
+    //   const idx = todoData.findIndex((el) => el.id === id);
+    //   const oldItem = todoData[idx];
+    //   const newItem = { ...oldItem, done: !oldItem.done };
+    //   const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+    //   return {
+    //     todoData: newArray,
+    //   };
+    // });
   };
 
   // TIMER FUNCTIONS
-  timer = (id) => {
-    this[`task${id}`] = setInterval(() => {
-      this.setState(({ todoData }) => {
+
+  // === DONE ===
+  const timer = (timerName, id) => {
+    console.log('FROM TIMER timerName: ', timerName);
+    timerName = setInterval(() => {
+      // console.log('timerName: ', timerName);
+      setTodoData((todoData) => {
         const idx = todoData.findIndex((el) => el.id === id);
         const oldItem = todoData[idx];
 
         if (oldItem.duration === 0) {
           console.warn(`Time for task "${oldItem.text}" is over!`);
-          this.deleteTaskTimer(id);
-          return;
+          clearInterval(timerName);
+          return [...todoData];
+        }
+
+        if (oldItem.isTracked === 'paused') {
+          console.warn('timer is paused');
+          clearInterval(timerName);
+          return [...todoData];
         }
 
         const newItem = { ...oldItem, duration: oldItem.duration - 1 };
-        const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
-        return {
-          todoData: newArray,
-        };
+        return [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
       });
     }, 1000);
+
+    // console.log(timerName, id);
+    //   console.log('oldItem: ', oldItem);
+    //   // console.log('oldItem: ', oldItem);
+    //   console.log('newItem: ', newItem);
+    //   // setTodoData([...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]);
+    //   setTodoData(([...todoData]) => {
+    //     [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+    //   });
+    //   console.log('todoData: ', todoData);
+
+    // if (oldItem.duration === 0) {
+    //   console.warn(`Time for task "${oldItem.text}" is over!`);
+    //   deleteTaskTimer(id);
+    //   return;
+    // }
+
+    // this.setState(({ todoData }) => {
+    //   const idx = todoData.findIndex((el) => el.id === id);
+    //   const oldItem = todoData[idx];
+
+    //   if (oldItem.duration === 0) {
+    //     console.warn(`Time for task "${oldItem.text}" is over!`);
+    //     this.deleteTaskTimer(id);
+    //     return;
+    //   }
+
+    //   const newItem = { ...oldItem, duration: oldItem.duration - 1 };
+    //   const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+    //   return {
+    //     todoData: newArray,
+    //   };
+    // });
   };
 
-  startTimer = (id) => {
-    const idx = this.state.todoData.findIndex((el) => el.id === id);
-    if (this.state.todoData[idx].isTracked === 'tracked') {
+  // === DONE ===
+  const startTimer = (id) => {
+    const idx = todoData.findIndex((el) => el.id === id);
+    if (todoData[idx].isTracked === 'tracked') {
       console.warn('Timer for this task is already running.');
       return;
-    } else if (this.state.todoData[idx].duration === 0) {
+    } else if (todoData[idx].duration === 0) {
       console.warn('Timer for this task is over.');
+      return;
     } else {
-      this.setState(({ todoData }) => {
-        const idx = todoData.findIndex((el) => el.id === id);
-        const oldItem = todoData[idx];
-        const newItem = { ...oldItem, isTracked: 'tracked' };
-        const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
-        return {
-          todoData: newArray,
-        };
-      });
-      this.timer(id);
+      console.log(id);
+      const idx = todoData.findIndex((el) => el.id === id);
+      const oldItem = todoData[idx];
+      const newItem = { ...oldItem, isTracked: 'tracked' };
+      setTodoData([...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]);
+      timer(`task${id}`, id);
+
+      // this.setState(({ todoData }) => {
+      //   const idx = todoData.findIndex((el) => el.id === id);
+      //   const oldItem = todoData[idx];
+      //   const newItem = { ...oldItem, isTracked: 'tracked' };
+      //   const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+      //   return {
+      //     todoData: newArray,
+      //   };
+      // });
     }
   };
 
-  stopTimer = (id) => {
-    clearInterval(this[`task${id}`]);
+  // === DONE ===
+  const stopTimer = (id) => {
+    // clearInterval(id);
 
-    this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((el) => el.id === id);
-      const oldItem = todoData[idx];
-      const newItem = { ...oldItem, isTracked: 'paused' };
-      const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
-      return {
-        todoData: newArray,
-      };
-    });
+    const idx = todoData.findIndex((el) => el.id === id);
+    const oldItem = todoData[idx];
+    const newItem = { ...oldItem, isTracked: 'paused' };
+    setTodoData([...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]);
+
+    // this.setState(({ todoData }) => {
+    //   const idx = todoData.findIndex((el) => el.id === id);
+    //   const oldItem = todoData[idx];
+    //   const newItem = { ...oldItem, isTracked: 'paused' };
+    //   const newArray = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)];
+    //   return {
+    //     todoData: newArray,
+    //   };
+    // });
   };
 
-  deleteTaskTimer = (id) => {
-    const task = this.state.todoData.find((el) => el.id === id);
+  const deleteTaskTimer = (id) => {
+    const task = todoData.find((el) => el.id === id);
 
-    clearInterval(this[`task${id}`]);
+    clearInterval(id);
     console.warn(`Timer for task "${task.text}" has been removed!`);
   };
 
   // Filter functions
-  showAll = () => {
-    this.setState(({ todoData }) => {
-      const newData = [...todoData];
+  // === DONE ===
+  const showAll = () => {
+    const newData = [...todoData];
 
-      const showedElements = newData.map((el) => {
-        return { ...el, hidden: false };
-      });
-
-      const newArray = showedElements.sort((prevTask, nextTask) => prevTask.id - nextTask.id);
-
-      return {
-        todoData: newArray,
-      };
+    const showedElements = newData.map((el) => {
+      return { ...el, hidden: false };
     });
+
+    setTodoData(showedElements.sort((prevTask, nextTask) => prevTask.id - nextTask.id));
+
+    // this.setState(({ todoData }) => {
+    //   const newData = [...todoData];
+
+    //   const showedElements = newData.map((el) => {
+    //     return { ...el, hidden: false };
+    //   });
+
+    //   const newArray = showedElements.sort((prevTask, nextTask) => prevTask.id - nextTask.id);
+
+    //   return {
+    //     todoData: newArray,
+    //   };
+    // });
   };
 
-  showActive = () => {
-    this.setState(({ todoData }) => {
-      const newData = [...todoData];
-      const resetData = newData.map((el) => {
-        return { ...el, hidden: false };
-      });
-
-      const completedTasks = resetData.filter((el) => el.done);
-      const uncompletedTasks = resetData.filter((el) => !el.done);
-
-      const hiddenElements = completedTasks.map((el) => {
-        return { ...el, hidden: true };
-      });
-
-      const newArray = [...hiddenElements, ...uncompletedTasks];
-
-      return {
-        todoData: newArray,
-      };
+  // === DONE ===
+  const showActive = () => {
+    const newData = [...todoData];
+    const resetData = newData.map((el) => {
+      return { ...el, hidden: false };
     });
-  };
 
-  showCompleted = () => {
-    this.setState(({ todoData }) => {
-      const newData = [...todoData];
+    const completedTasks = resetData.filter((el) => el.done);
+    const uncompletedTasks = resetData.filter((el) => !el.done);
 
-      const resetData = newData.map((el) => {
-        return { ...el, hidden: false };
-      });
-
-      const completedTasks = resetData.filter((el) => el.done);
-      const uncompletedTasks = resetData.filter((el) => !el.done);
-
-      const hiddenElements = uncompletedTasks.map((el) => {
-        return { ...el, hidden: true };
-      });
-
-      const newArray = [...hiddenElements, ...completedTasks];
-
-      return {
-        todoData: newArray,
-      };
+    const hiddenElements = completedTasks.map((el) => {
+      return { ...el, hidden: true };
     });
+
+    setTodoData([...hiddenElements, ...uncompletedTasks]);
+
+    // this.setState(({ todoData }) => {
+    //   const newData = [...todoData];
+    //   const resetData = newData.map((el) => {
+    //     return { ...el, hidden: false };
+    //   });
+
+    //   const completedTasks = resetData.filter((el) => el.done);
+    //   const uncompletedTasks = resetData.filter((el) => !el.done);
+
+    //   const hiddenElements = completedTasks.map((el) => {
+    //     return { ...el, hidden: true };
+    //   });
+
+    //   const newArray = [...hiddenElements, ...uncompletedTasks];
+
+    //   return {
+    //     todoData: newArray,
+    //   };
+    // });
   };
 
-  // LIFECYCLES HOOKS
-  componentDidUpdate = () => {
-    this.timer;
+  // === DONE ===
+  const showCompleted = () => {
+    const newData = [...todoData];
+
+    const resetData = newData.map((el) => {
+      return { ...el, hidden: false };
+    });
+
+    const completedTasks = resetData.filter((el) => el.done);
+    const uncompletedTasks = resetData.filter((el) => !el.done);
+
+    const hiddenElements = uncompletedTasks.map((el) => {
+      return { ...el, hidden: true };
+    });
+
+    setTodoData([...hiddenElements, ...completedTasks]);
+
+    // this.setState(({ todoData }) => {
+    //   const newData = [...todoData];
+
+    //   const resetData = newData.map((el) => {
+    //     return { ...el, hidden: false };
+    //   });
+
+    //   const completedTasks = resetData.filter((el) => el.done);
+    //   const uncompletedTasks = resetData.filter((el) => !el.done);
+
+    //   const hiddenElements = uncompletedTasks.map((el) => {
+    //     return { ...el, hidden: true };
+    //   });
+
+    //   const newArray = [...hiddenElements, ...completedTasks];
+
+    //   return {
+    //     todoData: newArray,
+    //   };
+    // });
   };
 
-  render() {
-    const { todoData } = this.state;
-    const doneCount = todoData.filter((el) => el.done).length;
-    const todoCount = todoData.length - doneCount;
+  const doneCount = todoData.filter((el) => el.done).length;
+  const todoCount = todoData.length - doneCount;
 
-    return (
-      <section className="todoapp">
-        <Header />
-        <NewTaskForm onItemAdded={this.addItem} />
-        <TaskList
-          todos={this.state.todoData}
-          editTask={this.editTask}
-          onTextCange={this.onTextCange}
-          onEdited={this.onEdited}
-          onDeleted={this.deleteItem}
-          onToggleDone={this.onToggleDone}
-          onStartTimer={this.startTimer}
-          onStopTimer={this.stopTimer}
-          deleteTaskTimer={this.deleteTaskTimer}
-        />
-        <Footer
-          toDo={todoCount}
-          onClearAll={this.clearCompleted}
-          onAllClick={this.showAll}
-          onActiveClick={this.showActive}
-          onCompletedClick={this.showCompleted}
-        />
-      </section>
-    );
-  }
-}
+  console.log(todoData);
+
+  return (
+    <section className="todoapp">
+      <Header />
+      <NewTaskForm onItemAdded={addItem} />
+      <TaskList
+        todos={todoData}
+        editTask={editTask}
+        onTextCange={onTextCange}
+        onEdited={onEdited}
+        onDeleted={deleteItem}
+        onToggleDone={onToggleDone}
+        onStartTimer={startTimer}
+        onStopTimer={stopTimer}
+        deleteTaskTimer={deleteTaskTimer}
+      />
+      <Footer
+        toDo={todoCount}
+        onClearAll={clearCompleted}
+        onAllClick={showAll}
+        onActiveClick={showActive}
+        onCompletedClick={showCompleted}
+      />
+    </section>
+  );
+};
+
+export default App;
